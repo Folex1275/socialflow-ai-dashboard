@@ -1,6 +1,12 @@
-import 'fake-indexeddb/auto'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import ipfsService from './IPFSService'
+
+// Mock IndexedDB
+const mockIndexedDB = {
+  open: vi.fn(),
+  deleteDatabase: vi.fn()
+};
+global.indexedDB = mockIndexedDB as any;
 
 beforeEach(() => {
   vi.restoreAllMocks()

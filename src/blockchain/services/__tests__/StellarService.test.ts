@@ -1,6 +1,29 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { stellarService } from '../StellarService';
 import { TESTNET_CONFIG } from '../../config/networks';
 import { Asset } from '@stellar/stellar-sdk';
+
+// Mock Stellar SDK Server
+vi.mock('@stellar/stellar-sdk', async () => {
+  const actual = await vi.importActual('@stellar/stellar-sdk');
+  return {
+    ...actual,
+    Server: vi.fn().mockImplementation(() => ({
+      root: vi.fn().mockResolvedValue({ core_version: '1.0.0' }),
+      loadAccount: vi.fn(),
+      submitTransaction: vi.fn(),
+      transactions: vi.fn().mockReturnValue({
+        forAccount: vi.fn().mockReturnValue({
+          limit: vi.fn().mockReturnValue({
+            order: vi.fn().mockReturnValue({
+              call: vi.fn().mockResolvedValue({ records: [] })
+            })
+          })
+        })
+      })
+    }))
+  };
+});
 
 describe('StellarService', () => {
   const mockAccount = {

@@ -3,6 +3,7 @@
  * Requirements: 1.1-1.7
  */
 
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { WalletService } from '../WalletService';
 import { FreighterProvider } from '../providers/FreighterProvider';
 import { AlbedoProvider } from '../providers/AlbedoProvider';
@@ -32,18 +33,18 @@ Object.defineProperty(global, 'localStorage', {
 
 // Mock window.freighter
 const mockFreighterAPI = {
-  isConnected: jest.fn(),
-  getPublicKey: jest.fn(),
-  signTransaction: jest.fn(),
-  signAuthEntry: jest.fn()
+  isConnected: vi.fn(),
+  getPublicKey: vi.fn(),
+  signTransaction: vi.fn(),
+  signAuthEntry: vi.fn()
 };
 
 // Mock window.albedo
 const mockAlbedoAPI = {
-  publicKey: jest.fn(),
-  tx: jest.fn(),
-  signMessage: jest.fn(),
-  implicitFlow: jest.fn()
+  publicKey: vi.fn(),
+  tx: vi.fn(),
+  signMessage: vi.fn(),
+  implicitFlow: vi.fn()
 };
 
 Object.defineProperty(global, 'window', {
